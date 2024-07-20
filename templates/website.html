@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="generator" content="Hugo 0.84.0">
+    <title>Simple Search Engine</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='assets/css/bootstrap.min.css') }}" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="{{ url_for('static', filename='assets/js/bootstrap.bundle.min.js') }}" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+        body {
+            background-color: #eee;
+            font-family: "Poppins", sans-serif;
+            font-weight: 300;
+        }
+
+        .height {
+            height: 100vh;
+        }
+
+        .search {
+            position: relative;
+            box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+        }
+
+        .search input {
+            height: 60px;
+            text-indent: 25px;
+            border: 2px solid #d6d4d4;
+        }
+
+        .search input:focus {
+            box-shadow: none;
+            border: 2px solid blue;
+        }
+
+        .search .fa-search {
+            position: absolute;
+            top: 20px;
+            left: 16px;
+        }
+
+        .search button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            height: 50px;
+            width: 110px;
+            background: blue;
+        }
+
+        a { 
+            text-decoration: none; 
+        }
+    </style>
+</head>
+<body class="text-center">
+<div class="container">
+    <div class="row height d-flex justify-content-center align-items-center">      
+        <div class="col-md-8">
+            <form name="form", method="POST", style="text-align: center;">
+                <div class="search">
+                    <i class="fa fa-search"></i>
+                    <input type="text" name="query" class="form-control" placeholder="Have a question? Ask Now" required/>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+            {% if not outputs %}
+                <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+                    <strong>Novel tidak ada!</strong> Mohon periksa kembali kata kunci pencarian Anda.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+            <div class="card mt-3">
+                {% if outputs %}
+                    {% for output in outputs %}
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ output.img }}" class="img-fluid rounded-start" alt="">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title text-start">
+                                        <a href="{{ output.link }}" target="_blank">{{ output.title }}</a>
+                                    </h5>
+                                    <p class="card-text text-start">{{ output.deskripsi }}</p>
+                                    <p class="card-text text-start"><small class="text-muted">Pembaca: {{ output.pembaca }}</small></p>
+                                    <p class="card-text text-start"><small class="text-muted">Penulis: {{ output.author }}</small></p>
+                                    <p class="card-text text-start"><small class="text-muted">Sim: {{ output.sim }}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
